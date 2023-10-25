@@ -1,0 +1,20 @@
+.layout {
+  display: flex;
+  margin-top: 3.5rem;
+  .navigation {
+    max-width: 12rem;
+    position: fixed;
+
+    @media screen and (max-width: 768px) {
+      max-width: 3rem;
+    }
+  }
+  .content {
+    width: 100%;
+    padding: 1rem;
+    margin-left: 12rem;
+    @media screen and (max-width: 768px) {
+      margin-left: 4rem;
+    }
+  }
+}

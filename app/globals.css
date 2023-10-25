@@ -2,26 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+/* Google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+:root {
+  --font-heading: 'Playfair Display', serif;
+  --font-sub-heading: 'Montserrat', sans-serif;
+  --font-content: 'Lato', sans-serif;
+
+  --beige: '#deb887';
+  --hover-beige: '#d3a05f';
+  --grey: '#efefef';
+  --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  font-family: var(--font-content);
+}
+h1 {
+  font-size: 25px;
+  font-weight: bold;
+  /* font-family: var(--font-sub-heading); */
+  text-transform: capitalize;
+}
+
+.--btn {
+  font-weight: 400;
+  padding: rem;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+.--btn:hover {
+  transform: translateY(-2px);
+}
+
+.--btn-lg {
+  padding: 8px 10px;
+}
+
+.--btn-block {
+  width: 100%;
+}
+
+.--btn-primary {
+  color: #fff;
+  background: #deb887;
+}
+
+.--btn-secondary {
+  color: #fff;
+  border: 1px solid #fff;
+  background: transparent;
 }

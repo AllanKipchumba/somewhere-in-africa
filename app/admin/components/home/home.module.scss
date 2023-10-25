@@ -1,0 +1,20 @@
+.info-box {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.card {
+  border: 1px solid #ccc !important;
+  padding: 5px;
+  background-color: #efefef;
+  padding: 1rem;
+}
+
+.card1 {
+  border-bottom: 3px solid #a05fd3 !important;
+}
+
+.card2 {
+  border-bottom: 3px solid #5fd3a0 !important;
+}

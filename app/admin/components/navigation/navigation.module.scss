@@ -1,0 +1,47 @@
+.navigation {
+  min-height: 100vh;
+  border-right: 1px solid #d3a05f;
+  .user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+    border-bottom: 1px solid #d3a05f;
+  }
+  nav ul {
+    li {
+      display: flex;
+      border-bottom: 1px solid #d3a05f;
+      padding: 1rem;
+
+      .link {
+        display: flex;
+        :first-child {
+          margin-right: 10px;
+          color: #d3a05f;
+          font-size: 20px;
+        }
+        @media screen and (max-width: 768px) {
+          p {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.active {
+  cursor: pointer;
+}
+
+.active::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background-color: orangered;
+}
