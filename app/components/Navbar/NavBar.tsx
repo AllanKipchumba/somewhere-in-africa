@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import styles from './navbar.module.scss';
+import styles from './navBar.module.scss';
 import { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { HiOutlineMenuAlt2 } from 'react-icons/hi';
