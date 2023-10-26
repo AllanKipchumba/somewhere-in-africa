@@ -56,9 +56,7 @@ export default function NavBar() {
             <li>
               <Link href='/'>Destinations</Link>
             </li>
-            <li>
-              <Link href='/'>Online booking</Link>
-            </li>
+
             <li>
               <Link href='/admin'>Admin</Link>
             </li>

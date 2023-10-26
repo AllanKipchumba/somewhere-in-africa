@@ -1,87 +1,165 @@
+'use client';
+
 import Card from '@/app/components/card/Card';
 import styles from './add-destination.module.scss';
+import { useState } from 'react';
+import UploadImageToFirebase from '@/lib/uploadImageToFirebase';
+import addDocumentToFirebase from '@/lib/addDocumentToFirebase';
+import Destinations from '../destinations/page';
+
+const initialState: Destination = {
+  name: '',
+  imageURL: '',
+  price: 0,
+  category: '',
+  description: '',
+};
 
 export default function AddDestination() {
+  const [destination, setDestination] = useState(initialState);
+  const [imageUploadProgress, setimageimageUploadProgress] = useState(0);
+
+  function handleInputChange(
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) {
+    const { name, value } = e.target;
+    setDestination({ ...destination, [name]: value });
+  }
+
+  async function uploadImage(e: React.ChangeEvent<HTMLInputElement>) {
+    try {
+      const { imageUrl, progress } = await UploadImageToFirebase(e);
+      setimageimageUploadProgress(progress);
+      setDestination({ ...destination, imageURL: imageUrl });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function addDestination(e: React.FormEvent) {
+    e.preventDefault();
+    try {
+      addDocumentToFirebase(destination);
+      setDestination({ ...initialState });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function editDestination() {}
+
   return (
-    <div className={styles.destination}>
-      <div className={styles.heading}>
-        <h1>Add new destination</h1>
-      </div>
-      <Card cardClass={styles.card}>
-        <form>
-          <label>Destination</label>
-          <input
-            type='text'
-            placeholder='add destination'
-            required
-            name='destination'
-          />
+    <Card cardClass={styles.card}>
+      <div className={styles.destination}>
+        <div className={styles.heading}>
+          <h1>Add new destination</h1>
+        </div>
 
-          <label>Image</label>
-          <Card cardClass={styles.group}>
-            {/* {uploadProgress !== 0 && (
-              <div className={styles.progress}>
-                <div
-                  className={styles['progress-bar']}
-                  style={{ width: `${uploadProgress}%` }}
-                >
-                  {uploadProgress < 100
-                    ? `Uploading ${uploadProgress}%`
-                    : `Upload Complete ${uploadProgress}%`}
-                </div>
-              </div>
-            )} */}
-
-            <input
-              type='file'
-              accept='image/*'
-              placeholder='destination image'
-              name='image'
-              // onChange={(e) => handleImageChange(e)}
-            />
-
-            {/* {product.imageURL !== '' && (
+        <form onSubmit={addDestination}>
+          <div className='grid md:grid-cols-2 sm:grid-cols-1'>
+            <div className='md:p-4'>
+              <label>Destination</label>
               <input
                 type='text'
+                placeholder='Name'
                 required
-                placeholder='image URL'
-                name='imageURL'
-                value={product.imageURL}
-                disabled
+                name='name'
+                value={destination.name}
+                onChange={(e) => handleInputChange(e)}
               />
-            )} */}
-          </Card>
+            </div>
 
-          <label>Category</label>
-          <input type='text' placeholder='Category' required name='category' />
+            <div className='md:p-4'>
+              <label>Image</label>
+              <Card cardClass={styles.group}>
+                <input
+                  type='file'
+                  accept='image/*'
+                  placeholder='destination image'
+                  name='image'
+                  onChange={(e) => uploadImage(e)}
+                />
 
-          <label>Price</label>
-          <input
-            type='number'
-            placeholder='price'
-            required
-            name='price'
-            // value={product.price}
-            // onChange={(e) => handleInputChange(e)}
-          />
+                {imageUploadProgress !== 0 && (
+                  <div className={styles.progress}>
+                    <div
+                      className={styles['progress-bar']}
+                      style={{ width: `${imageUploadProgress}%` }}
+                    >
+                      {imageUploadProgress < 100
+                        ? `Uploading ${imageUploadProgress}%`
+                        : `Upload Complete ${imageUploadProgress}%`}
+                    </div>
+                  </div>
+                )}
 
-          <label>Description</label>
-          <textarea
-            // type='text'
-            name='description'
-            // value={product.description}
-            // onChange={(e) => handleInputChange(e)}
-            // cols='30'
-            // rows='10'
-          ></textarea>
+                {destination.imageURL !== '' && (
+                  <input
+                    type='text'
+                    required
+                    placeholder='image URL'
+                    name='imageURL'
+                    value={destination.imageURL}
+                    disabled
+                  />
+                )}
+              </Card>
+            </div>
+          </div>
 
-          <button className='--btn --btn-primary --btn-lg'>save</button>
+          <div className='grid md:grid-cols-2 sm:grid-cols-1'>
+            <div className='md:p-4'>
+              <label>Category</label>
+              <input
+                type='text'
+                placeholder='Category'
+                required
+                name='category'
+                value={destination.category}
+                onChange={(e) => handleInputChange(e)}
+              />
+            </div>
+
+            <div className='md:p-4'>
+              <label>Price</label>
+              <input
+                type='number'
+                placeholder='price'
+                required
+                name='price'
+                value={destination.price}
+                onChange={(e) => handleInputChange(e)}
+              />
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <label>Description</label>
+              <textarea
+                name='description'
+                placeholder='Describe this destination'
+                cols={10}
+                rows={5}
+                onChange={(e) => handleInputChange(e)}
+                value={destination.description}
+              ></textarea>
+            </div>
+
+            <div>
+              <button className='--btn --btn-primary --btn-lg' type='submit'>
+                save
+              </button>
+            </div>
+          </div>
 
           {/* <button className='--btn --btn-primary'>
             {detectForm(id, 'Save Product', 'Edit product')}
           </button> */}
         </form>
-      </Card>
-    </div>
+      </div>
+    </Card>
   );
 }

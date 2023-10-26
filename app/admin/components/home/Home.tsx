@@ -8,7 +8,7 @@ const destinationIcon = <MdTravelExplore size={30} color='#a05fd3' />;
 
 export default function Home() {
   return (
-    <div>
+    <div className={styles.home}>
       <h1>Admin Home</h1>
 
       <div className={styles['info-box']}>

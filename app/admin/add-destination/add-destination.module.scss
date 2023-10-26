@@ -1,20 +1,16 @@
+.card {
+  width: 100%;
+  max-width: 1000px;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 1rem;
+}
 .destination {
   .heading {
     margin-bottom: 1rem;
     margin-left: 2rem;
-    h1 {
-      font-size: 25px;
-      font-weight: bold;
-      font-family: 'Playfair Display', serif;
-      text-transform: capitalize;
-      color: #d3a05f;
-    }
   }
-  .card {
-    width: 100%;
-    max-width: 600px;
-    padding: 1rem;
-  }
+
   form {
     padding: 1rem;
     label {
@@ -32,17 +28,17 @@
       padding: 0.7rem;
       margin: 1rem auto;
       width: 100%;
-      border: 1px solid #efefef;
+      border: 1px solid #d3a05f;
       border-radius: 5px;
       outline: none;
     }
 
     .progress {
-      background-color: #aaa;
+      background-color: #efefef;
       border: 1px solid transparent;
       border-radius: 10px;
       .progress-bar {
-        background-color: var(--light-blue);
+        background-color: #dea05f;
         border: 1px solid transparent;
         border-radius: 10px;
         color: #fff;
@@ -54,6 +50,6 @@
 }
 
 .group {
-  border: 1px solid var(--dark-blue);
+  border: 1px solid #efefef;
   padding: 5px;
 }

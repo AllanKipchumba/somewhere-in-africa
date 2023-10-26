@@ -1,7 +1,11 @@
-.table {
+.destinations {
   padding: 5px;
   width: 100%;
   overflow-x: auto;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 5px;
+
   .search {
     width: 100%;
     max-width: 300px;
@@ -9,9 +13,12 @@
   table {
     border-collapse: collapse;
     width: 100%;
+    border: 1px solid #d3a05f;
     thead {
       border-top: 2px solid #d3a05f;
       border-bottom: 2px solid #d3a05f;
+      background: #d3a05f;
+      color: #fff;
     }
     th {
       border: 1px solid #eee;
@@ -20,7 +27,7 @@
     td {
       vertical-align: top;
       text-align: left;
-      padding: 8px;
+      padding: 1rem;
       .icons {
         display: flex;
         > * {
@@ -33,7 +40,7 @@
       border-bottom: 1px solid #ccc;
     }
     tr:nth-child(even) {
-      background-color: #eee;
+      background-color: #efefef;
     }
   }
 }

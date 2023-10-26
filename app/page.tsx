@@ -1,9 +1,11 @@
 import Image from 'next/image';
+import Adventures from './components/adventure/Adventure';
 
 export default function Home() {
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
-      <h1>somewhere in africa</h1>
+    <main className='my-[3.6rem] mx-4 bg-white p-10'>
+      {/* <Adventures /> */}
+      <h1>Somewhere in africa</h1>
     </main>
   );
 }
