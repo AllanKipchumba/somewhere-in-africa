@@ -5,7 +5,6 @@ import styles from './add-destination.module.scss';
 import { useState } from 'react';
 import UploadImageToFirebase from '@/lib/uploadImageToFirebase';
 import addDocumentToFirebase from '@/lib/addDocumentToFirebase';
-import Destinations from '../destinations/page';
 
 const initialState: Destination = {
   name: '',
@@ -18,6 +17,9 @@ const initialState: Destination = {
 export default function AddDestination() {
   const [destination, setDestination] = useState(initialState);
   const [imageUploadProgress, setimageimageUploadProgress] = useState(0);
+
+  const currentURL = window.location.href;
+  console.log(currentURL);
 
   function handleInputChange(
     e:

@@ -1,11 +1,12 @@
 import Image from 'next/image';
-import Adventures from './components/adventure/Adventure';
 
 export default function Home() {
   return (
-    <main className='my-[3.6rem] mx-4 bg-white p-10'>
-      {/* <Adventures /> */}
-      <h1>Somewhere in africa</h1>
+    <main className='my-[3.6rem] mx-4 p-2'>
+      <h2>
+        Welcome to your gateway to unforgatable adventures in the heart of
+        africa
+      </h2>
     </main>
   );
 }

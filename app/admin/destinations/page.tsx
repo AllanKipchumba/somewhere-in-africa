@@ -22,8 +22,6 @@ export default function Destinations() {
     fetchDestinations();
   }, []);
 
-  console.log(data);
-
   return (
     <div className={styles.destinations}>
       <h1>Destinations</h1>

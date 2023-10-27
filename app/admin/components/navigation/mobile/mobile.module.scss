@@ -1,0 +1,16 @@
+.mobile {
+  nav {
+    ul {
+      display: flex;
+      gap: 5rem;
+
+      li {
+        font-size: 25px;
+        color: #d3a05f;
+        padding: 5px;
+        border: 2px solid #d3a05f;
+        border-radius: 50%;
+      }
+    }
+  }
+}
