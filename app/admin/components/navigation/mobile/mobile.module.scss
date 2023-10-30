@@ -5,11 +5,28 @@
       gap: 5rem;
 
       li {
-        font-size: 25px;
-        color: #d3a05f;
-        padding: 5px;
-        border: 2px solid #d3a05f;
-        border-radius: 50%;
+        div {
+          background-color: #fff;
+          padding: 0.2rem;
+          border-radius: 5px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          &:hover {
+            background-color: #e6e6e6;
+          }
+          :first-child {
+            font-size: 25px;
+            color: #c88837;
+            padding: 1px;
+            border: 2px solid #c88837;
+            border-radius: 50%;
+          }
+          p {
+            font-size: 13px;
+          }
+        }
       }
     }
   }

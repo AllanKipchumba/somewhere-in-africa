@@ -31,6 +31,28 @@
       border: 1px solid #d3a05f;
       border-radius: 5px;
       outline: none;
+
+      &:hover {
+        border: 1px solid #c88837;
+      }
+    }
+
+    .wrap-input-and-button {
+      display: flex;
+      position: relative;
+      div {
+        background-color: #d3a05f;
+        margin: 17px 0;
+        position: absolute;
+        right: 0;
+        padding: 0.7rem 1rem;
+        border-radius: 5px;
+
+        &:hover {
+          background-color: #c88837;
+          cursor: pointer;
+        }
+      }
     }
 
     .progress {

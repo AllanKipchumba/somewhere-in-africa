@@ -11,17 +11,26 @@ export default function Mobile() {
         <ul>
           <li>
             <Link href='/admin' className={styles.link}>
-              <AiFillHome />
+              <div>
+                <AiFillHome />
+                <p>Home</p>
+              </div>
             </Link>
           </li>
           <li>
-            <Link href='/admin/destinations' className={styles.link}>
-              <MdTravelExplore />
+            <Link href='/admin/packages' className={styles.link}>
+              <div>
+                <MdTravelExplore />
+                <p>Packages</p>
+              </div>
             </Link>
           </li>
           <li>
-            <Link href='/admin/add-destination' className={styles.link}>
-              <BsDatabaseFillAdd />
+            <Link href='/admin/add-package' className={styles.link}>
+              <div>
+                <BsDatabaseFillAdd />
+                <p>Add package</p>
+              </div>
             </Link>
           </li>
         </ul>

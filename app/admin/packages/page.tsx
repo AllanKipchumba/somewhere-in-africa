@@ -1,15 +1,15 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { Search } from '@/app/components/search/Search';
-import styles from './destinations.module.scss';
+import styles from './packages.module.scss';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import fetchCollection from '@/lib/fetchCollection';
 import Image from 'next/image';
 
-export default function Destinations() {
-  const [data, setData] = useState<Destination[]>([]);
+export default function Packages() {
+  const [data, setData] = useState<any[]>([]);
 
-  async function fetchDestinations() {
+  async function fetchPackages() {
     try {
       const collectionName = 'destinations';
       const collectionData = await fetchCollection(collectionName);
@@ -19,7 +19,7 @@ export default function Destinations() {
     }
   }
   useEffect(() => {
-    fetchDestinations();
+    fetchPackages();
   }, []);
 
   return (

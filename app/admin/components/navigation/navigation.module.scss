@@ -14,14 +14,19 @@
       display: flex;
       border-bottom: 1px solid #d3a05f;
       padding: 1rem;
+      &:hover {
+        background-color: #c88837;
+      }
 
       .link {
         display: flex;
+
         :first-child {
           margin-right: 10px;
-          color: #d3a05f;
+          color: #c88837;
           font-size: 20px;
         }
+
         @media screen and (max-width: 768px) {
           p {
             display: none;

@@ -51,8 +51,11 @@ h1 {
 }
 
 .--btn-primary {
-  color: #fff;
-  background: #deb887;
+  /* color: #fff; */
+  background: #d3a05f;
+}
+.--btn-primary:hover {
+  background: #c88837;
 }
 
 .--btn-secondary {

@@ -1,7 +1,9 @@
 .layout {
   display: flex;
   margin-top: 3.5rem;
-  height: 80vh;
+  @media screen and (max-width: 768px) {
+    margin-bottom: 4rem;
+  }
   .navigation {
     max-width: 12rem;
     position: fixed;
@@ -25,7 +27,7 @@
     display: none;
   }
   @media screen and (max-width: 768px) {
-    background-color: #efefef;
+    background-color: #cdcdcd;
     z-index: 9;
     bottom: 0;
     position: fixed;

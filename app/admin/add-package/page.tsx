@@ -1,25 +1,39 @@
 'use client';
 
 import Card from '@/app/components/card/Card';
-import styles from './add-destination.module.scss';
-import { useState } from 'react';
+import styles from './add-package.module.scss';
+import React, { useRef, useState } from 'react';
 import UploadImageToFirebase from '@/lib/uploadImageToFirebase';
 import addDocumentToFirebase from '@/lib/addDocumentToFirebase';
 
-const initialState: Destination = {
+const initialState: Package = {
   name: '',
   imageURL: '',
   price: 0,
-  category: '',
   description: '',
+  tourDetails: '',
 };
 
-export default function AddDestination() {
+export default function AddPackage() {
   const [destination, setDestination] = useState(initialState);
   const [imageUploadProgress, setimageimageUploadProgress] = useState(0);
+  const [packageIncludes, setPackageIncludes] = useState<string[]>([]);
+  const [packageExcludes, setPackageExcludes] = useState<string[]>([]);
+  const includesInputRef = useRef<HTMLInputElement | null>(null);
+  const excludesInputRef = useRef<HTMLInputElement | null>(null);
 
-  const currentURL = window.location.href;
-  console.log(currentURL);
+  const addItem = (
+    inputRef: React.MutableRefObject<HTMLInputElement | null>,
+    setPackage: React.Dispatch<React.SetStateAction<string[]>>
+  ) => {
+    if (inputRef.current) {
+      const inputValue = inputRef.current.value;
+      if (inputValue.trim() !== '') {
+        setPackage((prevPackage) => [...prevPackage, inputValue]);
+        inputRef.current.value = '';
+      }
+    }
+  };
 
   function handleInputChange(
     e:
@@ -40,7 +54,7 @@ export default function AddDestination() {
     }
   }
 
-  function addDestination(e: React.FormEvent) {
+  function savePackageToFirebase(e: React.FormEvent) {
     e.preventDefault();
     try {
       addDocumentToFirebase(destination);
@@ -50,22 +64,20 @@ export default function AddDestination() {
     }
   }
 
-  function editDestination() {}
-
   return (
     <Card cardClass={styles.card}>
       <div className={styles.destination}>
         <div className={styles.heading}>
-          <h1>Add new destination</h1>
+          <h1>Add new Package</h1>
         </div>
 
-        <form onSubmit={addDestination}>
+        <form onSubmit={savePackageToFirebase}>
           <div className='grid md:grid-cols-2 sm:grid-cols-1'>
             <div className='md:p-4'>
-              <label>Destination</label>
+              <label>Package name</label>
               <input
                 type='text'
-                placeholder='Name'
+                placeholder='Enter package name'
                 required
                 name='name'
                 value={destination.name}
@@ -113,18 +125,6 @@ export default function AddDestination() {
 
           <div className='grid md:grid-cols-2 sm:grid-cols-1'>
             <div className='md:p-4'>
-              <label>Category</label>
-              <input
-                type='text'
-                placeholder='Category'
-                required
-                name='category'
-                value={destination.category}
-                onChange={(e) => handleInputChange(e)}
-              />
-            </div>
-
-            <div className='md:p-4'>
               <label>Price</label>
               <input
                 type='number'
@@ -137,12 +137,12 @@ export default function AddDestination() {
             </div>
           </div>
 
-          <div>
-            <div>
+          <div className='grid md:grid-cols-2 sm:grid-cols-1'>
+            <div className='md:p-4'>
               <label>Description</label>
               <textarea
                 name='description'
-                placeholder='Describe this destination'
+                placeholder='Describe this package'
                 cols={10}
                 rows={5}
                 onChange={(e) => handleInputChange(e)}
@@ -150,11 +150,76 @@ export default function AddDestination() {
               ></textarea>
             </div>
 
-            <div>
-              <button className='--btn --btn-primary --btn-lg' type='submit'>
-                save
-              </button>
+            <div className='md:p-4'>
+              <label>Tour Details</label>
+              <textarea
+                name='tourDetails'
+                placeholder='Provide the tour details'
+                cols={10}
+                rows={5}
+                onChange={(e) => handleInputChange(e)}
+                value={destination.tourDetails}
+              ></textarea>
             </div>
+          </div>
+
+          <div className='grid md:grid-cols-2 sm:grid-cols-1'>
+            <div className='md:p-4'>
+              <div>
+                <Card cardClass={styles.card}>
+                  <div>
+                    <label>Includes?</label>
+                  </div>
+                  <div className={styles['wrap-input-and-button']}>
+                    <input
+                      type='text'
+                      placeholder='This package includes?'
+                      required
+                      name='includes'
+                      ref={includesInputRef}
+                    />
+                    <div
+                      onClick={() =>
+                        addItem(includesInputRef, setPackageIncludes)
+                      }
+                    >
+                      +Add
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            </div>
+            <div className='md:p-4 mt-4 md:mt-0'>
+              <div>
+                <Card cardClass={styles.card}>
+                  <div>
+                    <label>Excludes?</label>
+                  </div>
+                  <div className={styles['wrap-input-and-button']}>
+                    <input
+                      type='text'
+                      placeholder='This package excludes?'
+                      required
+                      name='excludes'
+                      ref={excludesInputRef}
+                    />
+                    <div
+                      onClick={() =>
+                        addItem(excludesInputRef, setPackageExcludes)
+                      }
+                    >
+                      +Add
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            </div>
+          </div>
+
+          <div className='mt-3'>
+            <button className='--btn --btn-primary --btn-lg' type='submit'>
+              Save Data
+            </button>
           </div>
 
           {/* <button className='--btn --btn-primary'>

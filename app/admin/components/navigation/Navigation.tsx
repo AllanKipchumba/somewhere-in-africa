@@ -23,15 +23,15 @@ export default function Navigation() {
             </Link>
           </li>
           <li>
-            <Link href='/admin/destinations' className={styles.link}>
+            <Link href='/admin/packages' className={styles.link}>
               <MdTravelExplore />
-              <p>Destinations</p>
+              <p>Packages</p>
             </Link>
           </li>
           <li>
-            <Link href='/admin/add-destination' className={styles.link}>
+            <Link href='/admin/add-package' className={styles.link}>
               <BsDatabaseFillAdd />
-              <p>Add Destination</p>
+              <p>Add Package</p>
             </Link>
           </li>
         </ul>
