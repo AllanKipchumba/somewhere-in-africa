@@ -5,35 +5,72 @@ import styles from './add-package.module.scss';
 import React, { useRef, useState } from 'react';
 import UploadImageToFirebase from '@/lib/uploadImageToFirebase';
 import addDocumentToFirebase from '@/lib/addDocumentToFirebase';
-
-const initialState: Package = {
-  name: '',
-  imageURL: '',
-  price: 0,
-  description: '',
-  tourDetails: '',
-};
+import List from '../components/list/List';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 export default function AddPackage() {
-  const [destination, setDestination] = useState(initialState);
-  const [imageUploadProgress, setimageimageUploadProgress] = useState(0);
   const [packageIncludes, setPackageIncludes] = useState<string[]>([]);
   const [packageExcludes, setPackageExcludes] = useState<string[]>([]);
+  const initialPackageState: Package = {
+    name: '',
+    imageURL: '',
+    price: 0,
+    description: '',
+    tourDetails: '',
+    includes: packageIncludes,
+    excludes: packageExcludes,
+  };
+  const [packageDetails, setPackageDetails] = useState(initialPackageState);
+  const [imageUploadProgress, setimageimageUploadProgress] = useState(0);
   const includesInputRef = useRef<HTMLInputElement | null>(null);
   const excludesInputRef = useRef<HTMLInputElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  const addItem = (
+  function addItem(
     inputRef: React.MutableRefObject<HTMLInputElement | null>,
-    setPackage: React.Dispatch<React.SetStateAction<string[]>>
-  ) => {
+    setPackage: React.Dispatch<React.SetStateAction<string[]>>,
+    packageType: PackageType
+  ) {
     if (inputRef.current) {
       const inputValue = inputRef.current.value;
       if (inputValue.trim() !== '') {
         setPackage((prevPackage) => [...prevPackage, inputValue]);
         inputRef.current.value = '';
+        setPackageDetails((prevPackageDetails) => ({
+          ...prevPackageDetails,
+          [packageType]: [...prevPackageDetails[packageType], inputValue],
+        }));
       }
     }
-  };
+  }
+
+  console.log(packageDetails);
+
+  function removeItemFromArray<T>(arr: T[], item: T): T[] {
+    return arr.filter((element) => element !== item);
+  }
+
+  function removeItem(item: string, packageType: string) {
+    if (packageType === 'includes') {
+      const updatedPackageIncludes = removeItemFromArray(packageIncludes, item);
+      setPackageIncludes(updatedPackageIncludes);
+
+      setPackageDetails((prevPackageDetails) => ({
+        ...prevPackageDetails,
+        includes: updatedPackageIncludes,
+      }));
+    } else if (packageType === 'excludes') {
+      const updatedPackageExcludes = removeItemFromArray(packageExcludes, item);
+      setPackageExcludes(updatedPackageExcludes);
+
+      setPackageDetails((prevPackageDetails) => ({
+        ...prevPackageDetails,
+        excludes: updatedPackageExcludes,
+      }));
+    }
+  }
 
   function handleInputChange(
     e:
@@ -41,32 +78,49 @@ export default function AddPackage() {
       | React.ChangeEvent<HTMLTextAreaElement>
   ) {
     const { name, value } = e.target;
-    setDestination({ ...destination, [name]: value });
+    setPackageDetails({ ...packageDetails, [name]: value });
   }
 
   async function uploadImage(e: React.ChangeEvent<HTMLInputElement>) {
     try {
       const { imageUrl, progress } = await UploadImageToFirebase(e);
       setimageimageUploadProgress(progress);
-      setDestination({ ...destination, imageURL: imageUrl });
+      setPackageDetails({ ...packageDetails, imageURL: imageUrl });
+      Notify.info('Image Uploaded successfully');
     } catch (error) {
       console.log(error);
+      Notify.failure('An error occurred during image upload');
     }
   }
 
   function savePackageToFirebase(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(true);
+    setError(false);
+
     try {
-      addDocumentToFirebase(destination);
-      setDestination({ ...initialState });
+      addDocumentToFirebase(packageDetails);
+      setPackageDetails({ ...initialPackageState });
+      setPackageIncludes([]);
+      setPackageExcludes([]);
+      setimageimageUploadProgress(0);
+      setLoading(false);
+      Notify.success('Data submitted successfully');
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
       console.log(error);
+      setLoading(false);
+      setError(true);
+      Notify.failure('An error occurred during data submission');
     }
   }
 
   return (
     <Card cardClass={styles.card}>
-      <div className={styles.destination}>
+      <div className={styles.package}>
         <div className={styles.heading}>
           <h1>Add new Package</h1>
         </div>
@@ -80,7 +134,7 @@ export default function AddPackage() {
                 placeholder='Enter package name'
                 required
                 name='name'
-                value={destination.name}
+                value={packageDetails.name}
                 onChange={(e) => handleInputChange(e)}
               />
             </div>
@@ -91,8 +145,9 @@ export default function AddPackage() {
                 <input
                   type='file'
                   accept='image/*'
-                  placeholder='destination image'
+                  placeholder='packageDetails image'
                   name='image'
+                  ref={fileInputRef}
                   onChange={(e) => uploadImage(e)}
                 />
 
@@ -109,13 +164,13 @@ export default function AddPackage() {
                   </div>
                 )}
 
-                {destination.imageURL !== '' && (
+                {packageDetails.imageURL !== '' && (
                   <input
                     type='text'
                     required
                     placeholder='image URL'
                     name='imageURL'
-                    value={destination.imageURL}
+                    value={packageDetails.imageURL}
                     disabled
                   />
                 )}
@@ -131,7 +186,7 @@ export default function AddPackage() {
                 placeholder='price'
                 required
                 name='price'
-                value={destination.price}
+                value={packageDetails.price}
                 onChange={(e) => handleInputChange(e)}
               />
             </div>
@@ -146,7 +201,7 @@ export default function AddPackage() {
                 cols={10}
                 rows={5}
                 onChange={(e) => handleInputChange(e)}
-                value={destination.description}
+                value={packageDetails.description}
               ></textarea>
             </div>
 
@@ -158,7 +213,7 @@ export default function AddPackage() {
                 cols={10}
                 rows={5}
                 onChange={(e) => handleInputChange(e)}
-                value={destination.tourDetails}
+                value={packageDetails.tourDetails}
               ></textarea>
             </div>
           </div>
@@ -169,18 +224,28 @@ export default function AddPackage() {
                 <Card cardClass={styles.card}>
                   <div>
                     <label>Includes?</label>
+                    {packageIncludes.length !== 0 && (
+                      <List
+                        list={packageIncludes}
+                        onRemoveItem={removeItem}
+                        packageType='includes'
+                      />
+                    )}
                   </div>
                   <div className={styles['wrap-input-and-button']}>
                     <input
                       type='text'
                       placeholder='This package includes?'
-                      required
                       name='includes'
                       ref={includesInputRef}
                     />
                     <div
                       onClick={() =>
-                        addItem(includesInputRef, setPackageIncludes)
+                        addItem(
+                          includesInputRef,
+                          setPackageIncludes,
+                          'includes'
+                        )
                       }
                     >
                       +Add
@@ -194,18 +259,28 @@ export default function AddPackage() {
                 <Card cardClass={styles.card}>
                   <div>
                     <label>Excludes?</label>
+                    {packageExcludes.length !== 0 && (
+                      <List
+                        list={packageExcludes}
+                        onRemoveItem={removeItem}
+                        packageType='excludes'
+                      />
+                    )}
                   </div>
                   <div className={styles['wrap-input-and-button']}>
                     <input
                       type='text'
                       placeholder='This package excludes?'
-                      required
                       name='excludes'
                       ref={excludesInputRef}
                     />
                     <div
                       onClick={() =>
-                        addItem(excludesInputRef, setPackageExcludes)
+                        addItem(
+                          excludesInputRef,
+                          setPackageExcludes,
+                          'excludes'
+                        )
                       }
                     >
                       +Add
@@ -218,8 +293,13 @@ export default function AddPackage() {
 
           <div className='mt-3'>
             <button className='--btn --btn-primary --btn-lg' type='submit'>
-              Save Data
+              {loading ? 'submitting...' : 'Save Package'}
             </button>
+            {error && (
+              <p className='mt-3 text-red-500'>
+                Error: Unable to save the data.
+              </p>
+            )}
           </div>
 
           {/* <button className='--btn --btn-primary'>

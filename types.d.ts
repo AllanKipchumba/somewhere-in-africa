@@ -5,8 +5,8 @@ type Package = {
   price: number;
   description: string;
   tourDetails: string;
-  includes?: string[];
-  excludes?: string[];
+  includes: string[];
+  excludes: string[];
 };
 
 type ListType = 'includes' | 'excludes';
@@ -16,3 +16,11 @@ interface Lists {
   includes: string[];
   excludes: string[];
 }
+
+interface ListProps {
+  list: string[];
+  onRemoveItem: (item: string, packageType: string) => void;
+  packageType: string;
+}
+
+type PackageType = 'includes' | 'excludes';

@@ -6,12 +6,12 @@ export default async function fetchCollection(collectionName: string) {
     const docRef = collection(db, collectionName);
     const q = query(docRef, orderBy('createdAt', 'desc'));
 
-    return new Promise<Destination[]>((resolve, reject) => {
+    return new Promise<Package[]>((resolve, reject) => {
       const unsubscribe = onSnapshot(
         q,
         (snapshot) => {
           // Extract the data
-          const allData: Destination[] | any = snapshot.docs.map((doc) => ({
+          const allData: Package[] | any = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));

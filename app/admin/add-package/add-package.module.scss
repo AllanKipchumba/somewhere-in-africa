@@ -5,7 +5,7 @@
   border-radius: 5px;
   padding: 1rem;
 }
-.destination {
+.package {
   .heading {
     margin-bottom: 1rem;
     margin-left: 2rem;
@@ -15,7 +15,7 @@
     padding: 1rem;
     label {
       display: block;
-      font-weight: 500;
+      font-weight: 600;
     }
     input[type='text'],
     input[type='number'],
@@ -28,9 +28,10 @@
       padding: 0.7rem;
       margin: 1rem auto;
       width: 100%;
-      border: 1px solid #d3a05f;
+      border: 1px solid #e6e6e6;
       border-radius: 5px;
       outline: none;
+      background-color: #e6e6e6;
 
       &:hover {
         border: 1px solid #c88837;

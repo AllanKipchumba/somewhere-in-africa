@@ -24,9 +24,9 @@ export default function Packages() {
 
   return (
     <div className={styles.destinations}>
-      <h1>Destinations</h1>
+      <h1>Packages</h1>
       <div className={styles.search}>
-        <p>{data.length} destinations found</p>
+        <p>{data.length} packages found</p>
         <Search />
       </div>
 
