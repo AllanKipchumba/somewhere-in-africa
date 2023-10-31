@@ -24,3 +24,10 @@ interface ListProps {
 }
 
 type PackageType = 'includes' | 'excludes';
+
+interface PaginationProps {
+  currentPage: number;
+  setCurrentPage: (pageNumber: number) => void;
+  itemsPerPage: number;
+  totalItems: number;
+}

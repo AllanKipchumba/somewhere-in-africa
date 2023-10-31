@@ -3,8 +3,8 @@ import styles from './search.module.scss';
 import { BiSearch } from 'react-icons/bi';
 
 interface propTypes {
-  value?: string;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  value: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 export const Search = ({ value, onChange }: propTypes) => {
