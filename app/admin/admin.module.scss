@@ -9,14 +9,13 @@
     position: fixed;
 
     @media screen and (max-width: 768px) {
-      // max-width: 3rem;
       display: none;
     }
   }
   .content {
     width: 100%;
     padding: 1rem;
-    margin-left: 12rem;
+    margin-left: 10rem;
     @media screen and (max-width: 768px) {
       margin-left: 0;
     }

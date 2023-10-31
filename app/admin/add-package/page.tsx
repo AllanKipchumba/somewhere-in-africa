@@ -46,8 +46,6 @@ export default function AddPackage() {
     }
   }
 
-  console.log(packageDetails);
-
   function removeItemFromArray<T>(arr: T[], item: T): T[] {
     return arr.filter((element) => element !== item);
   }
@@ -122,7 +120,7 @@ export default function AddPackage() {
     <Card cardClass={styles.card}>
       <div className={styles.package}>
         <div className={styles.heading}>
-          <h1>Add new Package</h1>
+          <h1>Add a new Package</h1>
         </div>
 
         <form onSubmit={savePackageToFirebase}>

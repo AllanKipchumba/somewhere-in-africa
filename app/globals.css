@@ -22,8 +22,6 @@ body {
 h1 {
   font-size: 25px;
   font-weight: bold;
-  /* font-family: var(--font-sub-heading); */
-  text-transform: capitalize;
 }
 
 .--btn {

@@ -11,20 +11,17 @@ export default function Home() {
     <div className={styles.home}>
       <h1>Admin Home</h1>
 
-      <div className={styles['info-box']}>
-        <InfoBox
-          cardClass={`${styles.card} ${styles.card1}`}
-          title={'Destinations'}
-          count={10}
-          icon={destinationIcon}
-        />
-        <InfoBox
-          cardClass={`${styles.card} ${styles.card2}`}
-          title={`Orders`}
-          count={10}
-          icon={ordersIcon}
-        />
-      </div>
+      <p>Manage packages and explore related pages for package management.</p>
+      <section>
+        <p>
+          <strong>Click &apos;Packages&apos; </strong>to view and manage
+          existing packages.
+        </p>
+        <p>
+          <strong>Click &apos;Add Package&apos;</strong> to add a new package to
+          the database.
+        </p>
+      </section>
     </div>
   );
 }
