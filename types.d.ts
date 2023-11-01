@@ -19,7 +19,7 @@ interface Lists {
 
 interface ListProps {
   list: string[];
-  onRemoveItem: (item: string, packageType: string) => void;
+  onRemoveItem?: (item: string, packageType: string) => void;
   packageType: string;
 }
 

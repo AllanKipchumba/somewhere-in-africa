@@ -1,0 +1,17 @@
+.list {
+  background-color: #e6e6e6;
+  border-radius: 5px;
+  padding: 1rem;
+  ul {
+    li {
+      display: flex;
+      gap: 5px;
+      padding: 3px;
+
+      :first-child {
+        margin-top: 3px;
+        color: #c88837;
+      }
+    }
+  }
+}

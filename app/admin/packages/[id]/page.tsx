@@ -1,5 +1,11 @@
 'use client';
+import Image from 'next/image';
 import styles from './packageDetails.module.scss';
+import PackageList from './components/PackageList';
+import { BiSolidEdit } from 'react-icons/bi';
+import { FetchDocument } from '@/lib/fetchDocument';
+import React, { useEffect, useState } from 'react';
+import { Notify } from 'notiflix';
 
 type Props = {
   params: {
@@ -8,10 +14,87 @@ type Props = {
 };
 
 export default function PackageDetails({ params: { id } }: Props) {
-  console.log(id);
+  const [fetchedData, setFetchedData] = useState<Package[] | any>([]);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const data = await FetchDocument('packages', id);
+        setFetchedData(data);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        Notify.failure('An error occurred while fetching data.');
+        setError(true);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
   return (
     <div className={styles['package-details']}>
-      <p>Package details</p>
+      {error && (
+        <p className='m-4 text-2xl font-bold text-red-500'>
+          An error occurred while fetching data
+        </p>
+      )}
+      {loading && <p className='m-4 text-2xl font-bold'>Fetching data...</p>}
+      {fetchedData.length !== 0 && (
+        <div>
+          <div className='md:flex md:items-center md:justify-center'>
+            <Image
+              src={fetchedData.imageURL}
+              width={600}
+              height={300}
+              alt='package'
+            />
+          </div>
+          <div className={styles.package}>
+            <h1 className={styles.heading}>Package details</h1>
+
+            <div className='grid gap-4 md:grid-cols-2 sm:grid-cols-1'>
+              <div className={styles.name}>
+                <h2>{fetchedData.name}</h2>
+                <p>{fetchedData.description}</p>
+              </div>
+              <div className={styles['tour-details']}>
+                <h2>Tour details</h2>
+                <p>{fetchedData.tourDetails}</p>
+              </div>
+            </div>
+            <div className='grid gap-4 md:grid-cols-2 sm:grid-cols-1'>
+              <div>
+                <h2>Includes</h2>
+                <PackageList
+                  list={fetchedData.includes}
+                  packageType='includes'
+                />
+              </div>
+              <div>
+                <h2>Excludes</h2>
+                <PackageList
+                  list={fetchedData.excludes}
+                  packageType='excludes'
+                />
+              </div>
+            </div>
+            <div className='grid gap-4 md:grid-cols-2 sm:grid-cols-1'>
+              <div className={styles.price}>
+                <h1>${fetchedData.price}</h1>
+              </div>
+              <div className={`${styles.edit} md:mt-[2rem]`}>
+                <BiSolidEdit />
+                <p>Edit this package</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
