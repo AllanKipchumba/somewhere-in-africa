@@ -28,19 +28,29 @@
       vertical-align: top;
       text-align: left;
       padding: 1rem;
-      .icons {
-        display: flex;
-        > * {
-          margin-right: 5px;
-          cursor: pointer;
+    }
+    .icons {
+      display: flex;
+      gap: 1rem;
+      > * {
+        margin-right: 5px;
+        cursor: pointer;
+        &:hover {
+          padding: 1px;
         }
       }
     }
     tr {
       border-bottom: 1px solid #ccc;
+      &:hover {
+        cursor: pointer;
+      }
     }
     tr:nth-child(even) {
       background-color: #efefef;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }

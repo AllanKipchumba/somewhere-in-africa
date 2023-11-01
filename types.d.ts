@@ -31,3 +31,7 @@ interface PaginationProps {
   itemsPerPage: number;
   totalItems: number;
 }
+
+interface PackageParams {
+  id: string;
+}
