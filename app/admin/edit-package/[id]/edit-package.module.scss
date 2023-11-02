@@ -1,0 +1,79 @@
+.card {
+  width: 100%;
+  max-width: 1000px;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 1rem;
+}
+.package {
+  .heading {
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+    color: #c88837;
+  }
+
+  form {
+    padding: 1rem;
+    label {
+      display: block;
+      font-weight: 600;
+    }
+    input[type='text'],
+    input[type='number'],
+    input[type='file'],
+    input[type='email'],
+    select,
+    textarea,
+    input[type='password'] {
+      display: block;
+      padding: 0.7rem;
+      margin: 1rem auto;
+      width: 100%;
+      border: 1px solid #e6e6e6;
+      border-radius: 5px;
+      outline: none;
+      background-color: #e6e6e6;
+
+      &:hover {
+        border: 1px solid #c88837;
+      }
+    }
+
+    .wrap-input-and-button {
+      display: flex;
+      position: relative;
+      div {
+        background-color: #d3a05f;
+        margin: 17px 0;
+        position: absolute;
+        right: 0;
+        padding: 0.7rem 1rem;
+        border-radius: 5px;
+
+        &:hover {
+          background-color: #c88837;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .progress {
+      background-color: #efefef;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      .progress-bar {
+        background-color: #dea05f;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        color: #fff;
+        font-weight: 500;
+        padding: 0 1rem;
+      }
+    }
+  }
+}
+
+.group {
+  border: 1px solid #efefef;
+  padding: 5px;
+}

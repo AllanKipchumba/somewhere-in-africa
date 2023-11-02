@@ -126,15 +126,23 @@ export default function Packages() {
                       const { id, name, price, imageURL } = packageDetails;
 
                       return (
-                        <tr
-                          key={id}
-                          onClick={() => router.push(`/admin/packages/${id}`)}
-                        >
+                        <tr key={id}>
                           <td>{index + 1}</td>
-                          <td>{name}</td>
+                          <td
+                            onClick={() => router.push(`/admin/packages/${id}`)}
+                            className='hover:bg-[#cdcdcd]'
+                          >
+                            {name}
+                          </td>
                           <td>$ {price}</td>
                           <td className={styles.icons}>
-                            <FaEdit size={20} color='green' />
+                            <FaEdit
+                              size={20}
+                              color='green'
+                              onClick={() =>
+                                router.push(`/admin/edit-package/${id}`)
+                              }
+                            />
 
                             <FaTrashAlt
                               size={18}

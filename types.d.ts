@@ -7,6 +7,7 @@ type Package = {
   tourDetails: string;
   includes: string[];
   excludes: string[];
+  createdAt?: Date;
 };
 
 type ListType = 'includes' | 'excludes';
@@ -35,3 +36,9 @@ interface PaginationProps {
 interface PackageParams {
   id: string;
 }
+
+type Props = {
+  params: {
+    id: string;
+  };
+};

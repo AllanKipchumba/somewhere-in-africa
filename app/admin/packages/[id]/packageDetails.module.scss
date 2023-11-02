@@ -20,6 +20,10 @@
 
     .name {
       margin-bottom: 1rem;
+      h2 {
+        color: #c88837;
+        font-weight: bold;
+      }
       p {
         background: #efefef;
         padding: 1rem;
@@ -49,7 +53,7 @@
     .edit {
       height: auto;
       background-color: #3cf83a;
-      width: 200px;
+      max-width: 200px;
       border-radius: 5px;
       display: flex;
       justify-content: center;
@@ -63,6 +67,18 @@
       &:hover {
         background-color: #0bf708;
         cursor: pointer;
+      }
+    }
+    .back {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-width: 200px;
+      text-align: center;
+      background-color: #d3a05f;
+      border-radius: 5px;
+      &:hover {
+        background-color: #c88837;
       }
     }
   }

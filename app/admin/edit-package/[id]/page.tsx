@@ -1,14 +1,20 @@
 'use client';
 
 import Card from '@/app/components/card/Card';
-import styles from './add-package.module.scss';
-import React, { useRef, useState } from 'react';
+import styles from './edit-package.module.scss';
+import React, { useRef, useState, useEffect } from 'react';
 import UploadImageToFirebase from '@/lib/uploadImageToFirebase';
 import addDocumentToFirebase from '@/lib/addDocumentToFirebase';
-import List from '../components/list/List';
+import List from '../../components/list/List';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { FetchDocument } from '@/lib/fetchDocument';
+import { db, storage } from '@/app/firebase/config';
+import { deleteObject, ref } from 'firebase/storage';
+import { Timestamp, doc, setDoc } from 'firebase/firestore';
+import { useRouter } from 'next/navigation';
 
-export default function AddPackage() {
+export default function EditPackage({ params: { id } }: Props) {
+  const router = useRouter();
   const [packageIncludes, setPackageIncludes] = useState<string[]>([]);
   const [packageExcludes, setPackageExcludes] = useState<string[]>([]);
   const initialPackageState: Package = {
@@ -21,6 +27,8 @@ export default function AddPackage() {
     excludes: packageExcludes,
   };
   const [packageDetails, setPackageDetails] = useState(initialPackageState);
+  const [fetchedPackageData, setFetchedPackageData] =
+    useState(initialPackageState);
   const [imageUploadProgress, setimageimageUploadProgress] = useState(0);
   const includesInputRef = useRef<HTMLInputElement | null>(null);
   const excludesInputRef = useRef<HTMLInputElement | null>(null);
@@ -28,47 +36,27 @@ export default function AddPackage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  function addItem(
-    inputRef: React.MutableRefObject<HTMLInputElement | null>,
-    setPackage: React.Dispatch<React.SetStateAction<string[]>>,
-    packageType: PackageType
-  ) {
-    if (inputRef.current) {
-      const inputValue = inputRef.current.value;
-      if (inputValue.trim() !== '') {
-        setPackage((prevPackage) => [...prevPackage, inputValue]);
-        inputRef.current.value = '';
-        setPackageDetails((prevPackageDetails) => ({
-          ...prevPackageDetails,
-          [packageType]: [...prevPackageDetails[packageType], inputValue],
-        }));
+  //fetch package data
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const data = await FetchDocument('packages', id);
+        setPackageDetails(data);
+        setFetchedPackageData(data);
+        setPackageIncludes(data.includes);
+        setPackageExcludes(data.excludes);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        Notify.failure('An error occurred while fetching data.');
+        setError(true);
+        setLoading(false);
       }
-    }
-  }
+    };
 
-  function removeItemFromArray<T>(arr: T[], item: T): T[] {
-    return arr.filter((element) => element !== item);
-  }
-
-  function removeItem(item: string, packageType: string) {
-    if (packageType === 'includes') {
-      const updatedPackageIncludes = removeItemFromArray(packageIncludes, item);
-      setPackageIncludes(updatedPackageIncludes);
-
-      setPackageDetails((prevPackageDetails) => ({
-        ...prevPackageDetails,
-        includes: updatedPackageIncludes,
-      }));
-    } else if (packageType === 'excludes') {
-      const updatedPackageExcludes = removeItemFromArray(packageExcludes, item);
-      setPackageExcludes(updatedPackageExcludes);
-
-      setPackageDetails((prevPackageDetails) => ({
-        ...prevPackageDetails,
-        excludes: updatedPackageExcludes,
-      }));
-    }
-  }
+    fetchData();
+  }, [id]);
 
   function handleInputChange(
     e:
@@ -91,23 +79,46 @@ export default function AddPackage() {
     }
   }
 
-  function savePackageToFirebase(e: React.FormEvent) {
+  function editPackage(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError(false);
 
+    //delete previous image before providing a new image
+    if (packageDetails.imageURL !== fetchedPackageData.imageURL) {
+      const storageRef = ref(storage, fetchedPackageData.imageURL);
+      deleteObject(storageRef);
+    }
+
     try {
-      addDocumentToFirebase(packageDetails);
+      //update package
+      const {
+        name,
+        imageURL,
+        price,
+        description,
+        tourDetails,
+        includes,
+        excludes,
+      } = packageDetails;
+      setDoc(doc(db, 'packages', id), {
+        name,
+        imageURL,
+        price,
+        description,
+        tourDetails,
+        includes,
+        excludes,
+        createdAt: fetchedPackageData.createdAt,
+        editedAt: Timestamp.now().toDate(),
+      });
       setPackageDetails({ ...initialPackageState });
       setPackageIncludes([]);
       setPackageExcludes([]);
       setimageimageUploadProgress(0);
       setLoading(false);
-      Notify.success('Data submitted successfully');
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      Notify.success('Package edited successfully');
+      router.push(`/admin/packages/${id}`);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -116,14 +127,58 @@ export default function AddPackage() {
     }
   }
 
+  // add item to includes or excludes arrays and to package details
+  function addItem(
+    inputRef: React.MutableRefObject<HTMLInputElement | null>,
+    setPackage: React.Dispatch<React.SetStateAction<string[]>>,
+    packageType: PackageType
+  ) {
+    if (inputRef.current) {
+      const inputValue = inputRef.current.value;
+      if (inputValue.trim() !== '') {
+        setPackage((prevPackage) => [...prevPackage, inputValue]);
+        inputRef.current.value = '';
+        setPackageDetails((prevPackageDetails) => ({
+          ...prevPackageDetails,
+          [packageType]: [...prevPackageDetails[packageType], inputValue],
+        }));
+      }
+    }
+  }
+
+  function removeItemFromArray<T>(arr: T[], item: T): T[] {
+    return arr.filter((element) => element !== item);
+  }
+
+  //remove item from the includes or excludes list
+  function removeItem(item: string, packageType: string) {
+    if (packageType === 'includes') {
+      const updatedPackageIncludes = removeItemFromArray(packageIncludes, item);
+      setPackageIncludes(updatedPackageIncludes);
+
+      setPackageDetails((prevPackageDetails) => ({
+        ...prevPackageDetails,
+        includes: updatedPackageIncludes,
+      }));
+    } else if (packageType === 'excludes') {
+      const updatedPackageExcludes = removeItemFromArray(packageExcludes, item);
+      setPackageExcludes(updatedPackageExcludes);
+
+      setPackageDetails((prevPackageDetails) => ({
+        ...prevPackageDetails,
+        excludes: updatedPackageExcludes,
+      }));
+    }
+  }
+
   return (
     <Card cardClass={styles.card}>
       <div className={styles.package}>
         <div className={styles.heading}>
-          <h1>Add a new Package</h1>
+          <h1>Edit Package</h1>
         </div>
 
-        <form onSubmit={savePackageToFirebase}>
+        <form onSubmit={editPackage}>
           <div className='grid md:grid-cols-2 sm:grid-cols-1'>
             <div className='md:p-4'>
               <label>Package name</label>
@@ -291,7 +346,7 @@ export default function AddPackage() {
 
           <div className='mt-3'>
             <button className='--btn --btn-primary --btn-lg' type='submit'>
-              {loading ? 'submitting...' : 'Upload Package'}
+              {loading ? 'submitting...' : 'Update Package'}
             </button>
             {error && (
               <p className='mt-3 text-red-500'>

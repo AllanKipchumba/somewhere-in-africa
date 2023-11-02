@@ -6,14 +6,11 @@ import { BiSolidEdit } from 'react-icons/bi';
 import { FetchDocument } from '@/lib/fetchDocument';
 import React, { useEffect, useState } from 'react';
 import { Notify } from 'notiflix';
-
-type Props = {
-  params: {
-    id: string;
-  };
-};
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function PackageDetails({ params: { id } }: Props) {
+  const router = useRouter();
   const [fetchedData, setFetchedData] = useState<Package[] | any>([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -83,13 +80,22 @@ export default function PackageDetails({ params: { id } }: Props) {
                 />
               </div>
             </div>
-            <div className='grid gap-4 md:grid-cols-2 sm:grid-cols-1'>
-              <div className={styles.price}>
-                <h1>${fetchedData.price}</h1>
-              </div>
-              <div className={`${styles.edit} md:mt-[2rem]`}>
+
+            <div className={styles.price}>
+              <h1>${fetchedData.price}</h1>
+            </div>
+            <div className='grid mt-3 gap-4 grid-cols-2 '>
+              <div
+                className={`${styles.edit} md:mt-[2rem]`}
+                onClick={() => router.push(`/admin/edit-package/${id}`)}
+              >
                 <BiSolidEdit />
                 <p>Edit this package</p>
+              </div>
+              <div className={`${styles.back} md:mt-[2rem]`}>
+                <Link href='/admin/packages'>
+                  <h1> &larr; &nbsp;Back</h1>
+                </Link>
               </div>
             </div>
           </div>
