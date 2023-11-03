@@ -35,6 +35,16 @@
         border-radius: 3px;
         outline: none;
       }
+      .password {
+        position: relative;
+        display: flex;
+        .icon {
+          position: absolute;
+          top: 30px;
+          margin-left: 90%;
+          cursor: pointer;
+        }
+      }
       .btn {
         background-color: #d3a05f;
         padding: 1rem;
