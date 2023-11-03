@@ -10,6 +10,7 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import Notiflix from 'notiflix';
 import DeleteDocument from '@/lib/deleteDocument';
 import { useRouter } from 'next/navigation';
+import WithAuth from '@/lib/withAuth';
 
 export default function Packages() {
   const router = useRouter();
@@ -93,79 +94,83 @@ export default function Packages() {
   };
 
   return (
-    <div className={styles.packages}>
-      {loading ? (
-        <p>Fetching packages....</p>
-      ) : (
-        <div>
-          <h1>Packages</h1>
-          <div className={styles.search}>
-            <p>{data.length} packages found</p>
-            <Search
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-          <p>Click on the package to view additional details.</p>
+    <WithAuth>
+      <div className={styles.packages}>
+        {loading ? (
+          <p>Fetching packages....</p>
+        ) : (
           <div>
-            {data.length === 0 ? (
-              <p>No record found.</p>
-            ) : (
-              <div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>s/n</th>
-                      <th>Name</th>
-                      <th>Price</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {currentPackages.map((packageDetails, index) => {
-                      const { id, name, price, imageURL } = packageDetails;
+            <h1>Packages</h1>
+            <div className={styles.search}>
+              <p>{data.length} packages found</p>
+              <Search
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+            <p>Click on the package to view additional details.</p>
+            <div>
+              {data.length === 0 ? (
+                <p>No record found.</p>
+              ) : (
+                <div>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>s/n</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {currentPackages.map((packageDetails, index) => {
+                        const { id, name, price, imageURL } = packageDetails;
 
-                      return (
-                        <tr key={id}>
-                          <td>{index + 1}</td>
-                          <td
-                            onClick={() => router.push(`/admin/packages/${id}`)}
-                            className='hover:bg-[#cdcdcd]'
-                          >
-                            {name}
-                          </td>
-                          <td>$ {price}</td>
-                          <td className={styles.icons}>
-                            <FaEdit
-                              size={20}
-                              color='green'
+                        return (
+                          <tr key={id}>
+                            <td>{index + 1}</td>
+                            <td
                               onClick={() =>
-                                router.push(`/admin/edit-package/${id}`)
+                                router.push(`/admin/packages/${id}`)
                               }
-                            />
+                              className='hover:bg-[#cdcdcd]'
+                            >
+                              {name}
+                            </td>
+                            <td>$ {price}</td>
+                            <td className={styles.icons}>
+                              <FaEdit
+                                size={20}
+                                color='green'
+                                onClick={() =>
+                                  router.push(`/admin/edit-package/${id}`)
+                                }
+                              />
 
-                            <FaTrashAlt
-                              size={18}
-                              color='red'
-                              onClick={() => confirmDelete(id!, imageURL)}
-                            />
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-                <Pagination
-                  currentPage={currentPage}
-                  setCurrentPage={setCurrentPage}
-                  itemsPerPage={packagesPerPage}
-                  totalItems={data.length}
-                />
-              </div>
-            )}
+                              <FaTrashAlt
+                                size={18}
+                                color='red'
+                                onClick={() => confirmDelete(id!, imageURL)}
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                  <Pagination
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    itemsPerPage={packagesPerPage}
+                    totalItems={data.length}
+                  />
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </WithAuth>
   );
 }

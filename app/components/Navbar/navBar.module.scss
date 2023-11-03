@@ -2,7 +2,7 @@
   width: 100%;
   width: 100%;
   position: fixed;
-  background-color: #efefef;
+  background-color: #b3b3b3;
   top: 0;
   z-index: 9;
 
@@ -16,6 +16,11 @@
     justify-content: space-between;
     align-items: center;
     position: relative;
+  }
+
+  .img {
+    background-color: #fff;
+    border-radius: 20px;
   }
 
   nav {
@@ -38,6 +43,7 @@
         &:hover {
           color: #d3a05f;
           font-weight: bold;
+          cursor: pointer;
         }
       }
     }
@@ -123,6 +129,7 @@
         }
         li {
           color: #fff;
+          font-weight: bold;
           padding: 10px 0;
           a {
             display: block;

@@ -1,12 +1,28 @@
-import Image from 'next/image';
+'use client';
+import React, { useEffect } from 'react';
+import styles from './styles.module.scss';
+import Link from 'next/link';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase/config';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      user && router.push('/admin');
+    });
+  });
+
   return (
-    <main className='my-[3.6rem] mx-4 p-2'>
-      <h2>
-        Welcome to your gateway to unforgatable adventures in the heart of
-        africa
-      </h2>
+    <main className={styles.home}>
+      <h1>Somewhere in Africa Admin portal</h1>
+      <div className={styles.auth}>
+        <Link href='/auth/login'>
+          <button>Login</button>
+        </Link>
+      </div>
     </main>
   );
 }

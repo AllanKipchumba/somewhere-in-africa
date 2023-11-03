@@ -3,23 +3,53 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './navBar.module.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { HiOutlineMenuAlt2 } from 'react-icons/hi';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from '@/app/firebase/config';
+import { Notify } from 'notiflix';
+import { useRouter } from 'next/navigation';
 
 const logo = (
   <div>
     <Link href='/'>
-      <Image src='/africa.png' alt='Logo' width={35} height={35} />
+      <Image
+        src='/africa.png'
+        alt='Logo'
+        width={35}
+        height={35}
+        className={styles.img}
+      />
     </Link>
   </div>
 );
 
 export default function NavBar() {
   const [showMenu, setShowMenu] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
+  const router = useRouter();
 
   const toggleMenu = () => setShowMenu(!showMenu);
   const hideMenu = () => setShowMenu(false);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      user && setAuthenticated(true);
+    });
+  });
+
+  const logoutUser = () => {
+    signOut(auth)
+      .then(() => {
+        setAuthenticated(false);
+        Notify.info('You are logged out');
+        router.push('/');
+      })
+      .catch((error) => {
+        Notify.failure(`Logout failed: ${error.message}`);
+      });
+  };
 
   return (
     <div className={`${styles.navigation}`}>
@@ -53,25 +83,24 @@ export default function NavBar() {
             <li>
               <Link href='/'>Home</Link>
             </li>
-            <li>
-              <Link href='/'>Destinations</Link>
-            </li>
-
-            <li>
-              <Link href='/admin'>Admin</Link>
-            </li>
+            {authenticated && (
+              <>
+                <li>
+                  <Link href='/admin'>Admin</Link>
+                </li>
+                <li onClick={logoutUser}>Logout</li>
+              </>
+            )}
           </ul>
 
           <div className={styles['header-right']} onClick={hideMenu}>
-            <span className={styles.links}>
-              <li>Logout</li>
-            </span>
+            <span className={styles.links}>{/* <li>Logout</li> */}</span>
           </div>
         </nav>
 
         {/* Navigation for mobile */}
         <div className={styles['menu-icon']}>
-          <HiOutlineMenuAlt2 size={28} color='#d3a05f' onClick={toggleMenu} />
+          <HiOutlineMenuAlt2 size={28} onClick={toggleMenu} />
         </div>
       </div>
     </div>

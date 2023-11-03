@@ -42,3 +42,10 @@ type Props = {
     id: string;
   };
 };
+
+interface PasswordStrengthIndicatorProps {
+  passLength: boolean;
+  passNumber: boolean;
+  passLetter: boolean;
+  showIndicator: boolean;
+}

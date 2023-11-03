@@ -3,7 +3,7 @@ import './globals.css';
 import NavBar from './components/Navbar/NavBar';
 
 export const metadata: Metadata = {
-  title: 'Somewhere In Africa',
+  title: 'Admin Somewhere In Africa',
   description: 'Admin dashboard',
 };
 

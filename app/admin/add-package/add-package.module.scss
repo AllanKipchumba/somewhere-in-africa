@@ -5,14 +5,25 @@
   border-radius: 5px;
   padding: 1rem;
 }
+@keyframes slide-up {
+  0% {
+    transform: translateY(-5rem);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
 .package {
   .heading {
     margin-bottom: 1rem;
     margin-left: 2rem;
     color: #c88837;
+    animation: slide-up 0.5s ease;
   }
 
   form {
+    animation: slide-up 0.5s ease;
+
     padding: 1rem;
     label {
       display: block;

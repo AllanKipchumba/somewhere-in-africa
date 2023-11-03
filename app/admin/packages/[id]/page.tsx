@@ -56,7 +56,10 @@ export default function PackageDetails({ params: { id } }: Props) {
 
             <div className='grid gap-4 md:grid-cols-2 sm:grid-cols-1'>
               <div className={styles.name}>
-                <h2>{fetchedData.name}</h2>
+                <div className='flex gap-4'>
+                  <h2>Name:</h2>
+                  <h2>{fetchedData.name}</h2>
+                </div>
                 <p>{fetchedData.description}</p>
               </div>
               <div className={styles['tour-details']}>
@@ -82,8 +85,10 @@ export default function PackageDetails({ params: { id } }: Props) {
             </div>
 
             <div className={styles.price}>
+              <h2>Price:</h2>
               <h1>${fetchedData.price}</h1>
             </div>
+
             <div className='grid mt-3 gap-4 grid-cols-2 '>
               <div
                 className={`${styles.edit} md:mt-[2rem]`}

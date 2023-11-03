@@ -2,6 +2,7 @@
   padding: 2rem;
   background-color: #fff;
   border-radius: 5px;
+  animation: slide-up 0.5s ease;
 
   section {
     margin-top: 2rem;
@@ -11,5 +12,14 @@
     p:first-child {
       margin-bottom: 1rem;
     }
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(-5rem);
+  }
+  100% {
+    transform: translateY(0);
   }
 }

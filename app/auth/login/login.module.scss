@@ -1,0 +1,88 @@
+.card {
+  margin: 1rem;
+  width: 100%;
+  max-width: 40rem;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 1rem;
+}
+.auth {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .form {
+    max-width: 35rem;
+    padding: 1.5rem;
+    animation: slide-up 0.5s ease;
+    h2 {
+      color: #d3a05f;
+      text-align: center;
+      font-weight: bolder;
+      font-size: 20px;
+    }
+    form {
+      input[type='text'],
+      input[type='email'],
+      input[type='password'] {
+        display: block;
+        font-weight: 300;
+        padding: 0.7rem;
+        margin: 1rem auto;
+        width: 100%;
+        border: 1px solid #777;
+        border-radius: 3px;
+        outline: none;
+      }
+      .btn {
+        background-color: #d3a05f;
+        padding: 1rem;
+        width: 200px;
+        border-radius: 5px;
+        &:hover {
+          background-color: #c88837;
+        }
+      }
+      .links {
+        margin-top: 1rem;
+      }
+      p {
+        text-align: center;
+        margin: 1rem;
+      }
+    }
+    .register {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1rem;
+      .reg {
+        color: #d3a05f;
+        font-weight: bold;
+      }
+    }
+    .pass-green {
+      color: green;
+    }
+    .pass-red {
+      color: red;
+    }
+  }
+  @keyframes slide-up {
+    0% {
+      transform: translateY(-5rem);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  @keyframes slide-down {
+    0% {
+      transform: translateY(5rem);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+}

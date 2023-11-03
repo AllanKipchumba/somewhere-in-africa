@@ -1,9 +1,18 @@
+@keyframes slide-up {
+  0% {
+    transform: translateY(-5rem);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
 .package-details {
   width: 100%;
   overflow-x: auto;
   border-radius: 5px;
 
   .package {
+    animation: slide-up 0.5s ease;
     padding: 2rem;
     background-color: #fff;
     h2 {
@@ -21,7 +30,6 @@
     .name {
       margin-bottom: 1rem;
       h2 {
-        color: #c88837;
         font-weight: bold;
       }
       p {
@@ -40,15 +48,9 @@
     }
 
     .price {
-      width: 200px;
-      text-align: center;
-      background-color: #d3a05f;
-      margin-top: 2rem;
-      border-radius: 5px;
-
-      h1 {
-        padding: 1rem;
-      }
+      display: flex;
+      gap: 1rem;
+      margin: 2rem 0;
     }
     .edit {
       height: auto;
