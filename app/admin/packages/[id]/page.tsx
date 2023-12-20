@@ -54,20 +54,24 @@ export default function PackageDetails({ params: { id } }: Props) {
           <div className={styles.package}>
             <h1 className={styles.heading}>Package details</h1>
 
-            <div className='grid gap-4 md:grid-cols-2 sm:grid-cols-1'>
+            <div className='grid gap-4 grid-cols-1'>
               <div className={styles.name}>
                 <div className='flex gap-4'>
                   <h2>Name:</h2>
                   <h2>{fetchedData.name}</h2>
                 </div>
-                <p>{fetchedData.description}</p>
+                <p style={{ whiteSpace: 'pre-wrap' }}>
+                  {fetchedData.description}
+                </p>
               </div>
               <div className={styles['tour-details']}>
                 <h2>Tour details</h2>
-                <p>{fetchedData.tourDetails}</p>
+                <p style={{ whiteSpace: 'pre-wrap' }}>
+                  {fetchedData.tourDetails}
+                </p>
               </div>
             </div>
-            <div className='grid gap-4 md:grid-cols-2 sm:grid-cols-1'>
+            <div className='grid gap-4 grid-cols-1'>
               <div>
                 <h2>Includes</h2>
                 <PackageList

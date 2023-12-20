@@ -180,7 +180,7 @@ export default function EditPackage({ params: { id } }: Props) {
           </div>
 
           <form onSubmit={editPackage}>
-            <div className='grid md:grid-cols-2 sm:grid-cols-1'>
+            <div className='grid grid-cols-1'>
               <div className='md:p-4'>
                 <label>Package name</label>
                 <input
@@ -246,14 +246,14 @@ export default function EditPackage({ params: { id } }: Props) {
               </div>
             </div>
 
-            <div className='grid md:grid-cols-2 sm:grid-cols-1'>
+            <div className='grid grid-cols-1'>
               <div className='md:p-4'>
                 <label>Description</label>
                 <textarea
                   name='description'
                   placeholder='Describe this package'
                   cols={10}
-                  rows={5}
+                  rows={15}
                   onChange={(e) => handleInputChange(e)}
                   value={packageDetails.description}
                 ></textarea>
@@ -265,14 +265,14 @@ export default function EditPackage({ params: { id } }: Props) {
                   name='tourDetails'
                   placeholder='Provide the tour details'
                   cols={10}
-                  rows={5}
+                  rows={15}
                   onChange={(e) => handleInputChange(e)}
                   value={packageDetails.tourDetails}
                 ></textarea>
               </div>
             </div>
 
-            <div className='grid md:grid-cols-2 sm:grid-cols-1'>
+            <div className='grid grid-cols-1'>
               <div className='md:p-4'>
                 <div>
                   <Card cardClass={styles.card}>

@@ -126,7 +126,7 @@ export default function AddPackage() {
           </div>
 
           <form onSubmit={savePackageToFirebase}>
-            <div className='grid md:grid-cols-2 sm:grid-cols-1'>
+            <div className='grid grid-cols-1'>
               <div className='md:p-4'>
                 <label>Package name</label>
                 <input
@@ -192,14 +192,14 @@ export default function AddPackage() {
               </div>
             </div>
 
-            <div className='grid md:grid-cols-2 sm:grid-cols-1'>
+            <div className='grid grid-cols-1'>
               <div className='md:p-4'>
                 <label>Description</label>
                 <textarea
                   name='description'
                   placeholder='Describe this package'
                   cols={10}
-                  rows={5}
+                  rows={15}
                   onChange={(e) => handleInputChange(e)}
                   value={packageDetails.description}
                 ></textarea>
@@ -211,14 +211,14 @@ export default function AddPackage() {
                   name='tourDetails'
                   placeholder='Provide the tour details'
                   cols={10}
-                  rows={5}
+                  rows={15}
                   onChange={(e) => handleInputChange(e)}
                   value={packageDetails.tourDetails}
                 ></textarea>
               </div>
             </div>
 
-            <div className='grid md:grid-cols-2 sm:grid-cols-1'>
+            <div className='grid grid-cols-1'>
               <div className='md:p-4'>
                 <div>
                   <Card cardClass={styles.card}>
